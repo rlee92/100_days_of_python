@@ -20,12 +20,17 @@ while game_is_on:
     time.sleep(0.1)
     screen.update()
 
-    if player.ycor() > 280:
-        player.level_up()
+    car_manager.create_car()
+    car_manager.move_cars()
 
-    if player.distance(car_manager) < 10:
-        game_is_on = False
+    for car in car_manager.all_cars:
+        if car.distance(player) < 20:
+            game_is_on = False
+            scoreboard.game_over()
 
-        print("game over")
+    if player.is_at_finish_line():
+        player.reset_position()
+        scoreboard.level_up()
+        car_manager.level_up()
 
 screen.exitonclick()
